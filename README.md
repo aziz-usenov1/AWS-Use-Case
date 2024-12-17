@@ -204,5 +204,6 @@ for file in files:
 
 print("\n✅ Sentiment analysis for all files completed!")
 ```
-![Architecture](https://github.com/user-attachments/assets/3eedf4c2-3bd8-43d9-b688-c96a052b3247)
+![Architecture](https://github.com/user-attachments/assets/a072c4b9-10fd-47a6-8bf7-22cb25a18081)
+
 ![sentiment_summary](https://github.com/user-attachments/assets/e916a83f-912f-4d85-ad29-686bfbe325a1)
