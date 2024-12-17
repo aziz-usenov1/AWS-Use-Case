@@ -25,9 +25,93 @@ Source: [Rödl &amp; Partner](https://www.google.com/url?sa=i&url=https%3A%2F%2F
 
 ## About the Project
 
-The goal of this use case is to compare the news delivery tone of [TechCrunch](https://techcrunch.com/) and [TechRadar](https://global.techradar.com/de-de) on the similar topic. The former website is one of the popular journal about the tech StartApp and all novelties in tech industry. The latter one is famous for being best advisor for providing news about the tech products like Macbook. 
+The goal of this use case is to compare the news delivery tone of [TechCrunch](https://techcrunch.com/) and [TechRadar](https://global.techradar.com/de-de) on the similar topic. The former website is one of the popular journal about the tech StartApp and all novelties in tech industry. The latter one is famous for being best advisor for providing news about the tech products like Macbook and it provides news in Deutsch. 
 
 This use case focuses on Apple devices for the tone comparison. The reason for this is that, despite being the top leader, Apple has been increasingly challenged by competitors who are launching cutting-edge tech products to outpace Apple. One can get up-to-date information about the Apple products from the official website but one may not find information being delivered with negative tone. So, all news will be positive from the official website. That is why the focus on third party news providers such as **TechCrunch** and **TechRadar** to reflect on true information on Apple products. So, running a sentiment analysis on the news on both sources related to Apple can show the differences in news delivery. Without any delays, let's get started 🔍!
+
+Since the focus is on the implementation of _AWS_ services in analyzing the news content of two sources, I decided to concentrate on 2 news per source. This ensures that no huge cost is charged for processing large content. I believe the logic underlined in this use-case can be applied to any similar use-cases or projects with the similar agenda. So, the procedures include:
+
+- **Web Scrape**: to extract relevant news
+- **Translate**: from Deutsch to English using _AWS Translate_
+- Run a **sentiment** analysis using _AWS Comprehend_
+- Estimate **cost** for used service
+
+<hr>
+
+## Web Scraping
+
+This is not an usual practice but I decided to scrape each piece of news separately to get individual **.txt** files. This way I can use Amazon S3 as my main storage instead of using the VS code environment. I could also process the data directly from the website and apply necessary manipulations but this time the focus on practicing cloud storage and manage data easily. Overall, In total, I scraped _4 news_ and generated 4 .txt files with the news content. These files contain text in the original language, i.e. Enlgish and Deutsch and ready for further analysis.
+
+**Extracting news content**
+
+The following code snippet is used for scraping both website adjusted for the url and selector:
+
+1. Connecting to a website: 
+```
+print("🌐 Attempting to access webpage without headers...")
+
+url = "https://techcrunch.com/2024/12/15/apple-reportedly-developing-foldable-iphone-and-ipad/"
+
+try:
+    response = requests.get(url)
+    print(f"📡 Response status code: {response.status_code}")
+
+    if response.status_code == 403:
+        print("❌ Access forbidden! This demonstrates why we need proper headers.")
+        print("ℹ️  Websites often block requests without proper User-Agent headers")
+        print("   to prevent automated scraping.")
+except Exception as e:
+    print(f"❌ Error: {str(e)}")
+
+```
+
+2. Extracting news content:
+
+```
+try:
+    # Parse the HTML
+    webpage = BeautifulSoup(response.content, "html.parser")
+
+    # Extract title
+    title = webpage.title.string.strip()
+    print("\n📑 Page Title:")
+    print("-" * 40)
+    print(title)
+    print("-" * 40)
+
+    # Extract paragraphs
+    print("\n📝 Article Content:")
+    print("-" * 40)
+    description_html = webpage.select(".wp-block-post-content-is-layout-constrained")  # <----------------- !!! Our selector: subject to adjustment !!!
+    texts = [
+    re.sub(r'\s+', ' ', text.get_text().strip())  # Collapse multiple spaces/newlines into one
+    for text in description_html
+    if text.get_text().strip()  # Ignore empty strings
+    ]
+    text = "\n".join(texts)
+    print(text)
+    print("-" * 40)
+
+    print("\n✅ Content extracted successfully")
+except Exception as e:
+    print(f"❌ Error parsing content: {str(e)}")
+```
+
+**AWS configuration in codespace**
+
+As I mentioned earlier Amazon S3 will be my main storage, so I need to configure with AWS to able to use its services programmatically. The configuration can be done with the following code:
+
+```
+aws configure
+```
+
+and checking for actual configuration:
+```
+code ~/.aws/config
+code ~/.aws/credentials
+```
+
+Configuration is done ✅ and ready to use AWS services programmatically. So, I imported boto3 library, which is main library used to get access for AWS services programmatically. Since I always use VS code environment for coding, I really wanted to ensure that I have the similar setup with AWS and the solution is AWS S3. It is really nice to store all your files securely on the cloud for easy access. This was really a nice practice for uploading and calling documents directly from my bucket programmatically rather than doing on the website itself playing with UI. So, the following was used to set up boto3 client for S3 and uploading documents:
 
 ```
 import pprint
@@ -49,6 +133,8 @@ print("✅ Environment setup complete!")
 print(f"🌍 Using AWS region: {s3.meta.region_name}")
 ```
 
+Here lets check for the available buckets:
+
 ```
 # Let's first check what buckets already exist in your AWS account
 # This helps us understand what resources we're starting with
@@ -67,6 +153,9 @@ else:
 
 print(f"\n✅ Successfully retrieved {len(response['Buckets'])} buckets")
 ```
+
+I know that I have created one bucket several days ago and I ensured that it is still there and active:
+
 ```
 { 'Buckets': [{ 'CreationDate': datetime.datetime(2024, 11, 27, 14, 49, 54, tzinfo=tzlocal()),
                  'Name': 'ceu-aziz-de2'}]
@@ -75,6 +164,7 @@ print(f"\n✅ Successfully retrieved {len(response['Buckets'])} buckets")
 📦 Your current S3 buckets:
 - ceu-aziz-de2
 ```
+<hr>
 
 ```
 files = [
