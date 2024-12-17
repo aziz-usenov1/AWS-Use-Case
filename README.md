@@ -207,3 +207,6 @@ print("\n✅ Sentiment analysis for all files completed!")
 ![Architecture](https://github.com/user-attachments/assets/a072c4b9-10fd-47a6-8bf7-22cb25a18081)
 
 ![sentiment_summary](https://github.com/user-attachments/assets/e916a83f-912f-4d85-ad29-686bfbe325a1)
+
+<img width="361" alt="image" src="https://github.com/user-attachments/assets/51744b1f-473a-411a-8ba4-2553f9a7241c" />
+
