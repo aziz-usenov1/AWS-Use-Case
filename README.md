@@ -347,6 +347,32 @@ for file in files:
 print("\n✅ Sentiment analysis for all files completed!")
 ```
 ✅ The sentiment analysis is done. The result is demonstrated in the following bar chart:
+
+```
+df = pd.DataFrame(sentiment_results)
+print("\n📊 Sentiment Analysis Results:")
+print(df)
+
+print("\n📊 Generating sentiment score graph...")
+plt.figure(figsize=(10, 6))
+bar_width = 0.2
+x = range(len(df))
+
+plt.bar(x, df["Positive"], width=bar_width, label="Positive")
+plt.bar([p + bar_width for p in x], df["Negative"], width=bar_width, label="Negative")
+plt.bar([p + 2 * bar_width for p in x], df["Neutral"], width=bar_width, label="Neutral")
+plt.bar([p + 3 * bar_width for p in x], df["Mixed"], width=bar_width, label="Mixed")
+
+plt.xticks([p + 1.5 * bar_width for p in x], df["File"], rotation=45, ha="right")
+plt.xlabel("Files")
+plt.ylabel("Sentiment Scores")
+plt.title("Sentiment Analysis Scores for Each File")
+plt.legend()
+
+plt.tight_layout()
+plt.savefig("sentiment_summary.png")
+plt.show()
+```
 ![sentiment_summary](https://github.com/user-attachments/assets/e916a83f-912f-4d85-ad29-686bfbe325a1)
 
 **Insight**
