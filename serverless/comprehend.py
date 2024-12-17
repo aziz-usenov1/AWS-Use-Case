@@ -41,4 +41,5 @@ plt.title("Sentiment Analysis Scores for Each File")
 plt.legend()
 
 plt.tight_layout()
+plt.savefig("sentiment_summary.png")
 plt.show()
