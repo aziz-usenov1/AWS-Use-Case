@@ -74,7 +74,6 @@ plt.figure(figsize=(10, 6))
 bar_width = 0.2
 x = range(len(df))
 
-# Plot bars for each sentiment category
 plt.bar(x, df["Positive"], width=bar_width, label="Positive")
 plt.bar([p + bar_width for p in x], df["Negative"], width=bar_width, label="Negative")
 plt.bar([p + 2 * bar_width for p in x], df["Neutral"], width=bar_width, label="Neutral")
