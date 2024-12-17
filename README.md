@@ -1,4 +1,34 @@
-# AWS-Use-Case
+<a id="readme-top"></a>
+
+<div align="center">
+  
+# Homework 3
+## Comparing Delivery Tone of News from **TechCrunch** and **TechRadar**
+<img src="https://github.com/user-attachments/assets/32bb48b6-5c82-48aa-9e7c-f5a427ec3e19" alt="Linkedin" width="500" height="220" align="center">
+
+Source: [Rödl &amp; Partner](https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.roedl.cz%2Fde%2Fmedien%2Fnewsletter%2Fnews%2F&psig=AOvVaw3cbNLj4bC8XJPM5E734P1G&ust=1734550175252000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCODNupTFr4oDFQAAAAAdAAAAABAE)
+
+<details open>
+  <summary>Table of Contents</summary>
+  <div align="center">
+    <p></p><a href="#about-the-project">About The Use Case</a></p>
+    <p></p><a href="#web-scraping">Web Scraping</a></p>
+    <p></p><a href="#aws-translate">AWS Translate</a></p>
+    <p></p><a href="#aws-comprehend">AWS Comprehend</a></p>
+    <p></p><a href="#cost-estimation">Cost Estimation</a></p>
+    <p></p><a href="#summary">Summary</a></p>
+  </div>
+</details>
+</div>
+
+<hr> 
+
+## About the Project
+
+The goal of this use case is to compare the news delivery tone of [TechCrunch](https://techcrunch.com/) and [TechRadar](https://global.techradar.com/de-de) on the similar topic. The former website is one of the popular journal about the tech StartApp and all novelties in tech industry. The latter one is famous for being best advisor for providing news about the tech products like Macbook. 
+
+This use case focuses on Apple devices for the tone comparison. The reason for this is that, despite being the top leader, Apple has been increasingly challenged by competitors who are launching cutting-edge tech products to outpace Apple. One can get up-to-date information about the Apple products from the official website but one may not find information being delivered with negative tone. So, all news will be positive from the official website. That is why the focus on third party news providers such as **TechCrunch** and **TechRadar** to reflect on true information on Apple products. So, running a sentiment analysis on the news on both sources related to Apple can show the differences in news delivery. Without any delays, let's get started 🔍!
+
 ```
 import pprint
 import boto3
