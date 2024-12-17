@@ -25,9 +25,9 @@ Source: [Rödl &amp; Partner](https://www.google.com/url?sa=i&url=https%3A%2F%2F
 
 ## About the Project
 
-The goal of this use case is to compare the news delivery tone of [TechCrunch](https://techcrunch.com/) and [TechRadar](https://global.techradar.com/de-de) on the similar topic. The former website is one of the popular journal about the tech StartApp and all novelties in tech industry. The latter one is famous for being best advisor for providing news about the tech products like Macbook and it provides news in Deutsch. 
+The goal of this use case is to compare the news delivery tone of [TechCrunch](https://techcrunch.com/) and [TechRadar](https://global.techradar.com/de-de) on the similar topic. The _former_ website is one of the popular journal about the tech StartApp and all novelties in tech industry. The _latter_ one is famous for being best advisor for providing news about the tech products like Macbook and it provides news in Deutsch. 
 
-This use case focuses on Apple devices for the tone comparison. The reason for this is that, despite being the top leader, Apple has been increasingly challenged by competitors who are launching cutting-edge tech products to outpace Apple. One can get up-to-date information about the Apple products from the official website but one may not find information being delivered with negative tone. So, all news will be positive from the official website. That is why the focus on third party news providers such as **TechCrunch** and **TechRadar** to reflect on true information on Apple products. So, running a sentiment analysis on the news on both sources related to Apple can show the differences in news delivery. Without any delays, let's get started 🔍!
+This use case focuses on Apple products for the tone comparison. The reason for this is that, despite being the top leader, Apple has been increasingly challenged by competitors who are launching cutting-edge tech products to outpace Apple. One can get up-to-date information about the Apple products from the official website but one may not find information being delivered with negative tone. So, all news will be positive from the official website. That is why the focus on third party news providers such as **TechCrunch** and **TechRadar** to reflect on true information on Apple products. So, running a sentiment analysis on the news on both sources related to Apple can show the differences in news delivery. Without any delays, let's get started 🔍!
 
 Since the focus is on the implementation of _AWS_ services in analyzing the news content of two sources, I decided to concentrate on 2 news per source. This ensures that no huge cost is charged for processing large content. I believe the logic underlined in this use-case can be applied to any similar use-cases or projects with the similar agenda. So, the procedures include:
 
@@ -40,13 +40,14 @@ Since the focus is on the implementation of _AWS_ services in analyzing the news
 
 ## Web Scraping
 
-This is not an usual practice but I decided to scrape each piece of news separately to get individual **.txt** files. This way I can use Amazon S3 as my main storage instead of using the VS code environment. I could also process the data directly from the website and apply necessary manipulations but this time the focus on practicing cloud storage and manage data easily. Overall, In total, I scraped _4 news_ and generated 4 .txt files with the news content. These files contain text in the original language, i.e. Enlgish and Deutsch and ready for further analysis.
+This is not an usual practice but I decided to scrape each piece of news separately to get individual **.txt** files. This way I can use Amazon S3 as my main storage instead of using the VS code environment. I could also process the data directly from the website and apply necessary manipulations but this time the focus on practicing cloud storage and manage data easily. Overall, In total, I scraped _4 news_ and generated _4 **.txt files**_ with the news content. These files contain text in the original language, i.e. Enlgish and Deutsch and ready for further analysis.
 
 **Extracting news content**
 
 The following code snippet is used for scraping both website adjusted for the url and selector:
 
-1. Connecting to a website: 
+**1. Connecting to a website:**
+
 ```
 print("🌐 Attempting to access webpage without headers...")
 
@@ -65,7 +66,7 @@ except Exception as e:
 
 ```
 
-2. Extracting news content:
+**2. Extracting news content:**
 
 ```
 try:
@@ -105,7 +106,7 @@ As I mentioned earlier Amazon S3 will be my main storage, so I need to configure
 aws configure
 ```
 
-and checking for actual configuration:
+and checking for **actual configuration:**
 ```
 code ~/.aws/config
 code ~/.aws/credentials
@@ -113,7 +114,7 @@ code ~/.aws/credentials
 
 ✅ Configuration is done and ready to use AWS services programmatically. 
 
-As a next step, I imported boto3 library, which is main library used to get access for AWS services programmatically. Since I always use VS code environment for coding, I really wanted to ensure that I have the similar setup with AWS and the solution is AWS S3. It is really nice to store all your files securely on the cloud for easy access. This was really a nice practice for uploading and calling documents directly from my bucket programmatically rather than doing on the website itself playing with UI. So, the following was used to set up boto3 client for S3 and uploading documents:
+As a next step, I imported ❗️**boto3**❗️ library, which is main library used to get access for AWS services programmatically. Since I always use VS code environment for coding, I really wanted to ensure that I have the similar setup with AWS and the solution is **AWS S3**. It is really nice to store all your files securely on the cloud for easy access. This was really a nice practice for uploading and calling documents directly from my bucket programmatically rather than doing on the website itself playing with UI. So, the following was used to set up boto3 client for S3 and uploading documents:
 
 ```
 import pprint
@@ -135,7 +136,7 @@ print("✅ Environment setup complete!")
 print(f"🌍 Using AWS region: {s3.meta.region_name}")
 ```
 
-Here lets check for the available buckets:
+Here lets check for the **available buckets**:
 
 ```
 # Let's first check what buckets already exist in your AWS account
@@ -156,7 +157,7 @@ else:
 print(f"\n✅ Successfully retrieved {len(response['Buckets'])} buckets")
 ```
 
-I know that I have created one bucket several days ago and I ensured that it is still there and active:
+📍 I know that I have created one _**bucket**_ several days ago and I ensured that it is still there and active:
 
 ```
 { 'Buckets': [{ 'CreationDate': datetime.datetime(2024, 11, 27, 14, 49, 54, tzinfo=tzlocal()),
@@ -167,7 +168,7 @@ I know that I have created one bucket several days ago and I ensured that it is 
 - ceu-aziz-de2
 ```
 
-Now, it is time upload files to my bucket in S3:
+♻️ Now, it is time upload files to my bucket in S3:
 
 ```
 files = [
@@ -203,7 +204,7 @@ except Exception as e:
 
 ## AWS Translate
 
-The TechRadar provides information in Deutsch and it needs to be translated into common language, in my case it is English because TechCrunch is English based website. So, 2 **.txt** files from TechRadar need to be translated to English and it is done by the following:
+The **TechRadar** provides information in _Deutsch_ and it needs to be translated into common language, in my case it is English because **TechCrunch** is _English_ based website. So, 2 **.txt** files from TechRadar need to be translated to English and it is done by the following:
 
 ```
 # %%
@@ -252,7 +253,7 @@ for file in files:
         print(f"❌ Error during translation: {str(e)}")
 ```
 
-Once again, the translated **.txt** file also needs to be uploaded to S3 bucket to able to call them afterwards for sentiment analysis. It is done as follows:
+♻️ Once again, the translated **.txt** file also needs to be uploaded to S3 bucket to able to call them afterwards for sentiment analysis. It is done as follows:
 
 ```
 files_translateed = [
@@ -283,9 +284,9 @@ except Exception as e:
 
 ✅ Everything is done and processed for sentiment analysis. Let's start the analyzing the tone 🔎.
 
-## Amazon Comprehend
+## AWS Comprehend
 
-At this step, it is neeeded to call another AWS service 'AWS Comprehend' which is used for many purposes like keyword detection, lanugage detection, sentiment analysis, and more. I needed sentiment analysis to check for tone. I used the following code to run the sentiment analysis for all English based **.txt** files:
+At this step, it is neeeded to call another AWS service 'AWS Comprehend' which is used for many purposes like _**keyword detection, lanugage detection, sentiment analysis**_, and more. I needed **sentiment analysis** to check for tone. I used the following code to run the sentiment analysis for all English based **.txt** files:
 
 ```
 # Create Comprehend client
@@ -343,13 +344,30 @@ print("\n✅ Sentiment analysis for all files completed!")
 ✅ The sentiment analysis is done. The result is demonstrated in the following bar chart:
 ![sentiment_summary](https://github.com/user-attachments/assets/e916a83f-912f-4d85-ad29-686bfbe325a1)
 
-In general, the news have a neutral tone coupled with a bit positive one. The first three news are, in fact, about the neutral discussing about Apple products. However, it turned out to be that TechRadar delivered the last news with negative tone. It is actually true because the content is about abolishing 12 inch Macbook from the sale which is negative content. AWS Comprehend did well in providing insights into tones of the news. 
+**Insight**
 
-The overall analysis was simple but efficient and reliable in identifying the correct tones of the news. The product architecture for this use case can be found here:
+In general, the news have a **neutral** tone coupled with a bit _positive_ one. The first three news are, in fact, about the neutral discussing about Apple products. However, it turned out to be that **TechRadar** delivered the last news with negative tone. It is actually true because the content is about abolishing 12 inch Macbook from the sale which is negative content. AWS Comprehend did well in providing insights into tones of the news. 
+
+🔰 The overall analysis was simple but efficient and reliable in identifying the correct tones of the news. The **product architecture** for this use case can be found here:
 
 ![Architecture](https://github.com/user-attachments/assets/a072c4b9-10fd-47a6-8bf7-22cb25a18081)
 
 ## Cost Estimation
 
-<img width="361" alt="image" src="https://github.com/user-attachments/assets/51744b1f-473a-411a-8ba4-2553f9a7241c" />
+This use case did not use Amazon Services extensively to ensure low cost and productivity by implementing correct procedures and services. The approximate total cost is 0.1664 USD. In general, the cost breakdown is as follows:
+
+- **AWS S3:** I used S3 as my storage which costs a small amount, and I spend around 0.0104 USD for uploading, storing, and calling files from the bucket. I did twice because first time I uploaded incorrectly processed txt files, and then I re-uploaded correct files. 
+
+- **AWS Translate:** I spent a little bit of 0.138 USD to translate my 2 files with german texts of around 4500 characters. I did it twice because first time I faced an error of empty txt files in my bucket which I re-uploaded as mentioned above. 
+
+- **AWS Comprehend:** The total cost of this service was 0.017978 USD to run sentiment analysis for all files. I also did it twice to check for reproducibility of the results because I changed the logic a little bit by analyzing all files at one time. In general, I used 17978 characters which is divided by 100 to get 179.78 units. So, AWS Comprehend charges 0.0001 USD per unit.
+
+Here you can find the **breakdown of total cost** in terms of pie chart:
+<div align="center">
+<img src="https://github.com/user-attachments/assets/51744b1f-473a-411a-8ba4-2553f9a7241c" width="600" height="350" align="center" />
+</div>
+
+## Summary
+
+Overall, this use-case successfully achieved its goals by implementing AWS services like **S3, Translate, and Comprehend** programmatically. AWS did well job in translating the document from Deutsch to English by retaining the original meaning. Also, it succeeded in providing correct sentiment analysis of the news content. Generally speaking, the use case did use a 💰little money💰 to show that sentiment analysis with all processings is doable with AWS Services for a small amount money. So, anyone interested in news tone can go over the similar steps to get the general feelings about them or compare the website to identify bias for a specific topic or news. 
 
