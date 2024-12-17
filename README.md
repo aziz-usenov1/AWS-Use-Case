@@ -36,6 +36,7 @@ Since the focus is on the implementation of _AWS_ services in analyzing the news
 - Run a **sentiment** analysis using _AWS Comprehend_
 - Estimate **cost** for used service
 
+<p align="right">(<a href="#readme-top"> 🔝 back to top</a>)</p>
 <hr>
 
 ## Web Scraping
@@ -200,6 +201,7 @@ except Exception as e:
 
 ✅ Files were successfully uploaded to S3 bucket and ready to go for the next step.
 
+<p align="right">(<a href="#readme-top"> 🔝 back to top</a>)</p>
 <hr>
 
 ## AWS Translate
@@ -284,6 +286,9 @@ except Exception as e:
 
 ✅ Everything is done and processed for sentiment analysis. Let's start the analyzing the tone 🔎.
 
+<p align="right">(<a href="#readme-top"> 🔝 back to top</a>)</p>
+<hr>
+
 ## AWS Comprehend
 
 At this step, it is neeeded to call another AWS service 'AWS Comprehend' which is used for many purposes like _**keyword detection, lanugage detection, sentiment analysis**_, and more. I needed **sentiment analysis** to check for tone. I used the following code to run the sentiment analysis for all English based **.txt** files:
@@ -352,6 +357,9 @@ In general, the news have a **neutral** tone coupled with a bit _positive_ one. 
 
 ![Architecture](https://github.com/user-attachments/assets/a072c4b9-10fd-47a6-8bf7-22cb25a18081)
 
+<p align="right">(<a href="#readme-top"> 🔝 back to top</a>)</p>
+<hr>
+
 ## Cost Estimation
 
 This use case did not use Amazon Services extensively to ensure low cost and productivity by implementing correct procedures and services. The approximate total cost is 0.1664 USD. In general, the cost breakdown is as follows:
@@ -367,7 +375,11 @@ Here you can find the **breakdown of total cost** in terms of pie chart:
 <img src="https://github.com/user-attachments/assets/51744b1f-473a-411a-8ba4-2553f9a7241c" width="600" height="350" align="center" />
 </div>
 
+<p align="right">(<a href="#readme-top"> 🔝 back to top</a>)</p>
+<hr>
+
 ## Summary
 
 Overall, this use-case successfully achieved its goals by implementing AWS services like **S3, Translate, and Comprehend** programmatically. AWS did well job in translating the document from Deutsch to English by retaining the original meaning. Also, it succeeded in providing correct sentiment analysis of the news content. Generally speaking, the use case did use a 💰little money💰 to show that sentiment analysis with all processings is doable with AWS Services for a small amount money. So, anyone interested in news tone can go over the similar steps to get the general feelings about them or compare the website to identify bias for a specific topic or news. 
 
+<p align="right">(<a href="#readme-top"> 🔝 back to top</a>)</p>
