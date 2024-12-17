@@ -56,7 +56,7 @@ except Exception as e:
     print(f"❌ Error uploading file: {str(e)}")
 
 # %% 
-# Uploading files to S3
+# Uploading origial files to S3
 
 files = [
     "news_1_crunch.txt",
@@ -84,3 +84,29 @@ try:
 except Exception as e:
     print(f"❌ Error uploading files: {str(e)}")
 
+# %%
+# Uploading translated files
+
+files_translateed = [
+    "news_3_radar_translated.txt",
+    "news_4_radar_translated.txt",
+]
+
+bucket_name = "ceu-aziz-de2"
+
+print(f"⬆️  Uploading {len(files)} files to bucket: {bucket_name}")
+
+try:
+    for file in files_translateed:
+        print(f"Uploading {file}...")
+        s3.upload_file(file, bucket_name, file)
+        print(f"✅ {file} uploaded successfully!")
+
+    # Verify the upload by listing objects in the bucket
+    objects = s3.list_objects_v2(Bucket=bucket_name)
+    print("\n📦 Current bucket contents:")
+    for obj in objects.get("Contents", []):
+        print(f"- {obj['Key']} ({obj['Size']} bytes)")
+
+except Exception as e:
+    print(f"❌ Error uploading files: {str(e)}")
