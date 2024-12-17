@@ -111,7 +111,9 @@ code ~/.aws/config
 code ~/.aws/credentials
 ```
 
-Configuration is done ✅ and ready to use AWS services programmatically. So, I imported boto3 library, which is main library used to get access for AWS services programmatically. Since I always use VS code environment for coding, I really wanted to ensure that I have the similar setup with AWS and the solution is AWS S3. It is really nice to store all your files securely on the cloud for easy access. This was really a nice practice for uploading and calling documents directly from my bucket programmatically rather than doing on the website itself playing with UI. So, the following was used to set up boto3 client for S3 and uploading documents:
+✅ Configuration is done and ready to use AWS services programmatically. 
+
+As a next step, I imported boto3 library, which is main library used to get access for AWS services programmatically. Since I always use VS code environment for coding, I really wanted to ensure that I have the similar setup with AWS and the solution is AWS S3. It is really nice to store all your files securely on the cloud for easy access. This was really a nice practice for uploading and calling documents directly from my bucket programmatically rather than doing on the website itself playing with UI. So, the following was used to set up boto3 client for S3 and uploading documents:
 
 ```
 import pprint
@@ -164,7 +166,8 @@ I know that I have created one bucket several days ago and I ensured that it is 
 📦 Your current S3 buckets:
 - ceu-aziz-de2
 ```
-<hr>
+
+Now, it is time upload files to my bucket in S3:
 
 ```
 files = [
@@ -194,34 +197,13 @@ except Exception as e:
     print(f"❌ Error uploading files: {str(e)}")
 ```
 
-```
-files_translateed = [
-    "news_3_radar_translated.txt",
-    "news_4_radar_translated.txt",
-]
-
-bucket_name = "ceu-aziz-de2"
-
-print(f"⬆️  Uploading {len(files)} files to bucket: {bucket_name}")
-
-try:
-    for file in files_translateed:
-        print(f"Uploading {file}...")
-        s3.upload_file(file, bucket_name, file)
-        print(f"✅ {file} uploaded successfully!")
-
-    # Verify the upload by listing objects in the bucket
-    objects = s3.list_objects_v2(Bucket=bucket_name)
-    print("\n📦 Current bucket contents:")
-    for obj in objects.get("Contents", []):
-        print(f"- {obj['Key']} ({obj['Size']} bytes)")
-
-except Exception as e:
-    print(f"❌ Error uploading files: {str(e)}")
-
-```
+✅ Files were successfully uploaded to S3 bucket and ready to go for the next step.
 
 <hr>
+
+## AWS Translate
+
+The TechRadar provides information in Deutsch and it needs to be translated into common language, in my case it is English because TechCrunch is English based website. So, 2 **.txt** files from TechRadar need to be translated to English and it is done by the following:
 
 ```
 # %%
@@ -270,6 +252,40 @@ for file in files:
         print(f"❌ Error during translation: {str(e)}")
 ```
 
+Once again, the translated **.txt** file also needs to be uploaded to S3 bucket to able to call them afterwards for sentiment analysis. It is done as follows:
+
+```
+files_translateed = [
+    "news_3_radar_translated.txt",
+    "news_4_radar_translated.txt",
+]
+
+bucket_name = "ceu-aziz-de2"
+
+print(f"⬆️  Uploading {len(files)} files to bucket: {bucket_name}")
+
+try:
+    for file in files_translateed:
+        print(f"Uploading {file}...")
+        s3.upload_file(file, bucket_name, file)
+        print(f"✅ {file} uploaded successfully!")
+
+    # Verify the upload by listing objects in the bucket
+    objects = s3.list_objects_v2(Bucket=bucket_name)
+    print("\n📦 Current bucket contents:")
+    for obj in objects.get("Contents", []):
+        print(f"- {obj['Key']} ({obj['Size']} bytes)")
+
+except Exception as e:
+    print(f"❌ Error uploading files: {str(e)}")
+
+```
+
+✅ Everything is done and processed for sentiment analysis. Let's start the analyzing the tone 🔎.
+
+## Amazon Comprehend
+
+At this step, it is neeeded to call another AWS service 'AWS Comprehend' which is used for many purposes like keyword detection, lanugage detection, sentiment analysis, and more. I needed sentiment analysis to check for tone. I used the following code to run the sentiment analysis for all English based **.txt** files:
 
 ```
 # Create Comprehend client
@@ -324,9 +340,16 @@ for file in files:
 
 print("\n✅ Sentiment analysis for all files completed!")
 ```
+✅ The sentiment analysis is done. The result is demonstrated in the following bar chart:
+![sentiment_summary](https://github.com/user-attachments/assets/e916a83f-912f-4d85-ad29-686bfbe325a1)
+
+In general, the news have a neutral tone coupled with a bit positive one. The first three news are, in fact, about the neutral discussing about Apple products. However, it turned out to be that TechRadar delivered the last news with negative tone. It is actually true because the content is about abolishing 12 inch Macbook from the sale which is negative content. AWS Comprehend did well in providing insights into tones of the news. 
+
+The overall analysis was simple but efficient and reliable in identifying the correct tones of the news. The product architecture for this use case can be found here:
+
 ![Architecture](https://github.com/user-attachments/assets/a072c4b9-10fd-47a6-8bf7-22cb25a18081)
 
-![sentiment_summary](https://github.com/user-attachments/assets/e916a83f-912f-4d85-ad29-686bfbe325a1)
+## Cost Estimation
 
 <img width="361" alt="image" src="https://github.com/user-attachments/assets/51744b1f-473a-411a-8ba4-2553f9a7241c" />
 
