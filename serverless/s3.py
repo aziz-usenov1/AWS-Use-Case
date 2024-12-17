@@ -37,23 +37,9 @@ else:
 
 print(f"\n✅ Successfully retrieved {len(response['Buckets'])} buckets")
 
-# %%
-print(f"⬆️  Uploading file to bucket: ceu-aziz-de2")
-
-try:
-    s3.upload_file("news_1_crunch.txt", "ceu-aziz-de2", "news_1_crunch.txt")
-    print("✅ Upload successful!")
-
-    # Verify the upload by listing objects in the bucket
-    objects = s3.list_objects_v2(Bucket="ceu-aziz-de2")
-    print("\n📦 Current bucket contents:")
-    for obj in objects.get("Contents", []):
-        print(f"- {obj['Key']} ({obj['Size']} bytes)")
-except Exception as e:
-    print(f"❌ Error uploading file: {str(e)}")
-
 # %% 
 # Uploading origial files to S3
+print(f"⬆️  Uploading file to bucket: ceu-aziz-de2")
 
 files = [
     "news_1_crunch.txt",
