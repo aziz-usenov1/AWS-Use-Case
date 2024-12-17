@@ -1,11 +1,7 @@
 # %%
 # Import required libraries and set up our environment
 # We'll use these throughout the tutorial to interact with AWS S3
-import os
 import pprint
-import random
-import string
-
 import boto3
 
 print("📚 Setting up the environment...")
