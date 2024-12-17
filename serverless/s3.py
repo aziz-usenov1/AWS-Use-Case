@@ -36,6 +36,7 @@ else:
     print("No buckets found in your account")
 
 print(f"\n✅ Successfully retrieved {len(response['Buckets'])} buckets")
+
 # %%
 print(f"⬆️  Uploading file to bucket: ceu-aziz-de2")
 
