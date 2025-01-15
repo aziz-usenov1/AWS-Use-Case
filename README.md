@@ -2,7 +2,6 @@
 
 <div align="center">
   
-# Homework 3
 ## Comparing Delivery Tone of News from **TechCrunch** and **TechRadar**
 <img src="https://github.com/user-attachments/assets/32bb48b6-5c82-48aa-9e7c-f5a427ec3e19" alt="Linkedin" width="500" height="220" align="center">
 
